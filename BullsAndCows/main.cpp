@@ -8,24 +8,30 @@
 
 #include "../../../std_lib_facilities.h"
 
-int main()
+void play()
 {
-    vector<int> to_guess = {3, 5, 1, 9};
+    vector<int> to_guess = {};
     string user_guess;
-    vector<int> int_user_guess;
+    vector<int> int_user_guess = {};
     int dig1, dig2, dig3, dig4;
     int num_bulls = 0;
     int num_cows = 0;
     bool guessed = false;
+
     
-    cout << "We're going to play Bulls and Cows, a guessing game.\n";
-    cout << "I'm thinking of 4 digits (each between 0 - 9) that do not repeat.\n";
-    cout << "For example, it could be 1234, but it can't be 1123 or 1231 (the 1's repeat).\n";
-    cout << "Enter 4 digits (no spaces) and if you guess one digit correctly and in the right space, \n";
-    cout << "then it's a 'Bull', and the right number but in the wrong spot is a 'Cow'.\n";
-    cout << "For example, I'm thinking of '1234' and you guess '1378' - you get one Bull and one Cow.\n";
+    
+    to_guess.push_back(randint(9));
+
+    
+    for (int i = 1; i < 4; ++i) {
+        int temp = randint(9);
+        to_guess.push_back(temp);
+    }
+
+    
     
     while (!guessed) {
+        cout << to_guess[0] << " " << to_guess[1] << " " << to_guess[2] << " " << to_guess[3] << '\n';
         cout << "Now, enter your numbers (separated by spaces).\n";
         cin >> dig1 >> dig2 >> dig3 >> dig4;
         
@@ -60,6 +66,34 @@ int main()
             cout << "You got " << num_bulls << " Bulls, and " << num_cows << " Cows. Guess again.\n";
         }
         num_cows = num_bulls = 0;
-        int_user_guess.clear();
+        to_guess.clear();
+        to_guess.shrink_to_fit();
+        
+    }
+}
+
+int main()
+{
+    bool still_play = true;
+    char again;
+    
+    cout << "We're going to play Bulls and Cows, a guessing game.\n";
+    cout << "I'm thinking of 4 digits (each between 0 - 9) that do not repeat.\n";
+    cout << "For example, it could be 1234, but it can't be 1123 or 1231 (the 1's repeat).\n";
+    cout << "Enter 4 digits (no spaces) and if you guess one digit correctly and in the right space, \n";
+    cout << "then it's a 'Bull', and the right number but in the wrong spot is a 'Cow'.\n";
+    cout << "For example, I'm thinking of '1234' and you guess '1378' - you get one Bull and one Cow.\n";
+    
+    play();
+    
+    while (still_play) {
+        cout << "Play again ('y' or 'n')?\n";
+        cin >> again;
+        if (again == 'y') {
+            play();
+        } else {
+            still_play = false;
+            break;
+        }
     }
 }
